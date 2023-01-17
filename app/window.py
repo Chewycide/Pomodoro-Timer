@@ -2,7 +2,11 @@ from PyQt5.QtWidgets import (
     QWidget,
     QDesktopWidget,
     QVBoxLayout,
-    QHBoxLayout
+    QHBoxLayout,
+    QLabel
+)
+from PyQt5.QtCore import (
+    Qt
 )
 
 
@@ -40,9 +44,20 @@ class Pomodoro(QWidget):
 
 
     def InitUI(self):
-        """Initializes all the layouts and components of the application"""
-        pass
+        """Initializes all the layouts and components of the application."""
 
-        
+        # --- Main Layout of the window
+        main_v_layout = QVBoxLayout()
+        main_v_layout.setAlignment(Qt.AlignCenter)
         
 
+        # --- 1st row
+        row_1 = QHBoxLayout()
+        timer_placeholder = QLabel()
+        timer_placeholder.setText("00:00")
+        row_1.addWidget(timer_placeholder)
+        main_v_layout.addLayout(row_1)
+
+
+        # --- Set the layout of the window
+        self.setLayout(main_v_layout)
