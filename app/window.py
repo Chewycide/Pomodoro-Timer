@@ -1,7 +1,13 @@
 from PyQt5.QtWidgets import (
     QWidget,
     QDesktopWidget,
+    QVBoxLayout,
+    QHBoxLayout
 )
+
+
+WIN_WIDTH = 500
+WIN_HEIGHT = WIN_WIDTH
 
 
 class Pomodoro(QWidget):
@@ -11,12 +17,13 @@ class Pomodoro(QWidget):
         super().__init__()
 
         self.InitUI()
+        self.InitWindow()
 
 
-    def InitUI(self):
-        """Initializes the main UI of the Pomodoro app"""
+    def InitWindow(self):
+        """Handles the window geometry and shows the window"""
 
-        self.resize(500, 500)
+        self.resize(WIN_WIDTH, WIN_HEIGHT)
         self.setMinimumSize(500, 500)
         self.goto_center()
 
@@ -31,4 +38,11 @@ class Pomodoro(QWidget):
         qr.moveCenter(cp)
         self.move(qr.topLeft())
 
+
+    def InitUI(self):
+        """Initializes all the layouts and components of the application"""
+        pass
+
+        
+        
 

@@ -8,4 +8,4 @@ def run_app() -> None:
 
     pomodoro_app = QApplication(sys.argv)
     window = Pomodoro()
-    sys.exit(pomodoro_app.exec_())
+    sys.exit(pomodoro_app.exec())
