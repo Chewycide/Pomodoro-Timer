@@ -87,7 +87,7 @@ class Pomodoro(QWidget):
         self.time = 0
         self.timer = QTimer()
         self.timer.timeout.connect(self.display_time)
-        self.timer.start(10)
+        self.timer.start(1000)
 
 
     def display_time(self):
