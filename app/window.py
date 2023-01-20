@@ -93,19 +93,8 @@ class Pomodoro(QWidget):
     def display_time(self):
         """Function to display the time."""
 
-        self.current_time_min = self.current_time // 60
-        self.current_time_sec = self.current_time % 60
-
-        # when minutes and seconds reaches single-digit values it will 
-        # not display a zero before the current digit therefore this 
-        # statement will add zero before the digit.
-        if self.current_time_sec < 10:
-            self.current_time_sec = f"0{self.current_time_sec}"
-        if self.current_time_min < 10:
-            self.current_time_min = f"0{self.current_time_min}"
-
         # variable to be used to store time as a string
-        self.current_time_str = f"{self.current_time_min}:{self.current_time_sec}"
+        self.current_time_str = self.time_to_string()
 
         # must display time when user clicked the start button
         if self.run and self.current_time >= 0:
@@ -127,5 +116,31 @@ class Pomodoro(QWidget):
     def stop(self):
         """Handles stopping of the pomodoro timer"""
 
-        self.current_time = STUDY_TIME_SEC
         self.run = False
+        self.current_time = STUDY_TIME_SEC
+        self.current_time_str = self.time_to_string()
+        self.current_timer_label.setText(self.current_time_str)
+
+
+    def time_to_string(self) -> str:
+        """
+            function that returns the full time in mins and return it as a 
+            string with the format:
+
+            mm:ss
+
+            wherein mm is minutes and ss is seconds. e.g. 09:59
+        """
+
+        self.current_time_min = self.current_time // 60
+        self.current_time_sec = self.current_time % 60
+
+        # when minutes and seconds reaches single-digit values it will 
+        # not display a zero before the current digit therefore this 
+        # statement will add zero before the digit.
+        if self.current_time_sec < 10:
+            self.current_time_sec = f"0{self.current_time_sec}"
+        if self.current_time_min < 10:
+            self.current_time_min = f"0{self.current_time_min}"
+
+        return f"{self.current_time_min}:{self.current_time_sec}"
