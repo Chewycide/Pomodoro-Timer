@@ -11,6 +11,7 @@
 - [ ] prevent user from clicking start when timer is started
 - [ ] let user choose own sound, then add functionality to stop longer sounds
 - [ ] add qss style
+- [ ] automatically go to short/long break/study time when timer reaches 00:00
 - [ ] make style responsive
 - [ ] save all records to csv file
 - [ ] add github profile pic as the placeholder icon for the window
