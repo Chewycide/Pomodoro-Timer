@@ -8,9 +8,11 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtCore import (
     Qt,
-    QTimer
+    QTimer,
+    QThread
 )
 from app.variables import *
+from app.audio import AudioFeedback
 
 
 class Pomodoro(QWidget):
@@ -84,7 +86,7 @@ class Pomodoro(QWidget):
         """Initialize the Pomodoro's timer."""
 
         self.run = False
-        self.current_time = 0
+        self.current_time = STUDY_TIME_SEC
         self.current_timer = QTimer()
         self.current_timer.timeout.connect(self.display_time)
         self.current_timer.start(1000)
@@ -104,6 +106,10 @@ class Pomodoro(QWidget):
         # stop running upon displaying zero
         elif self.current_time < 0:
             self.run = False
+            # call alert function
+            self.alert_audio()
+            # will stop audio function from being called every second
+            self.current_time = STUDY_TIME_SEC
 
 
     def start(self):
@@ -144,3 +150,18 @@ class Pomodoro(QWidget):
             self.current_time_min = f"0{self.current_time_min}"
 
         return f"{self.current_time_min}:{self.current_time_sec}"
+
+
+    def alert_audio(self):
+        """Will alert user via audio"""
+
+        self.alert_thread = QThread()
+        self.alert_worker = AudioFeedback()
+        self.alert_worker.moveToThread(self.alert_thread)
+
+        # signals
+        self.alert_thread.started.connect(self.alert_worker.play_audio)
+        self.alert_worker.finished.connect(self.alert_thread.quit)
+        self.alert_worker.finished.connect(self.alert_worker.deleteLater)
+        self.alert_thread.finished.connect(self.alert_thread.deleteLater)
+        self.alert_thread.start()
