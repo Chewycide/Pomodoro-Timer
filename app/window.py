@@ -78,6 +78,19 @@ class Pomodoro(QWidget):
         main_v_layout.addLayout(row_2)
 
 
+        # --- 3rd row
+        row_3 = QHBoxLayout()
+
+        self.study_time_btn = QPushButton("Study Time")
+        self.short_break_btn = QPushButton("Short Break")
+        self.long_break_btn = QPushButton("Long Break")
+
+        row_3.addWidget(self.study_time_btn)
+        row_3.addWidget(self.short_break_btn)
+        row_3.addWidget(self.long_break_btn)
+        main_v_layout.addLayout(row_3)
+
+
         # --- Set the layout of the window
         self.setLayout(main_v_layout)
 
