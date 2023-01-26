@@ -13,5 +13,5 @@ class AudioFeedback(QObject):
     @pyqtSlot()
     def play_audio(self):
         """Play audio"""
-        playsound.playsound("assets/retro_notif.wav")
+        playsound.playsound("assets/default_alert.wav")
         self.finished.emit()
