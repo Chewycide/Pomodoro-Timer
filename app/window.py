@@ -12,7 +12,10 @@ from PyQt5.QtCore import (
     QThread
 )
 from app.variables import *
-from app.audio import AudioFeedback
+from app.threads import (
+    AudioFeedback,
+    FileHandler
+)
 
 
 class Pomodoro(QWidget):
@@ -127,7 +130,8 @@ class Pomodoro(QWidget):
             # call alert function
             self.alert_audio()
             # will stop audio function from being called every second
-            self.current_time = STUDY_TIME_SEC
+            self.current_time = 0
+            self.stop()
 
 
     def start(self):
@@ -142,6 +146,9 @@ class Pomodoro(QWidget):
 
         self.start_btn.setDisabled(False)
         self.run = False
+        self.time_to_record = self.time_to_string()
+        self.save_record()
+
 
         if self.timer_state == 0:
             self.current_time = STUDY_TIME_SEC
@@ -180,21 +187,6 @@ class Pomodoro(QWidget):
         return f"{self.current_time_min}:{self.current_time_sec}"
 
 
-    def alert_audio(self):
-        """Will alert user via audio"""
-
-        self.alert_thread = QThread()
-        self.alert_worker = AudioFeedback()
-        self.alert_worker.moveToThread(self.alert_thread)
-
-        # signals
-        self.alert_thread.started.connect(self.alert_worker.play_audio)
-        self.alert_worker.finished.connect(self.alert_thread.quit)
-        self.alert_worker.finished.connect(self.alert_worker.deleteLater)
-        self.alert_thread.finished.connect(self.alert_thread.deleteLater)
-        self.alert_thread.start()
-
-
     def study_time_func(self):
 
         self.timer_state = 0
@@ -221,3 +213,38 @@ class Pomodoro(QWidget):
         self.study_time_btn.setDisabled(False)
         self.short_break_btn.setDisabled(False)
 
+
+    def alert_audio(self):
+        """Will alert user via audio"""
+
+        self.alert_thread = QThread()
+        self.alert_worker = AudioFeedback()
+        self.alert_worker.moveToThread(self.alert_thread)
+
+        # signals
+        self.alert_thread.started.connect(self.alert_worker.play_audio)
+        self.alert_worker.finished.connect(self.alert_thread.quit)
+        self.alert_worker.finished.connect(self.alert_worker.deleteLater)
+        self.alert_thread.finished.connect(self.alert_thread.deleteLater)
+        self.alert_thread.start()
+
+
+    def save_record(self):
+        """save record when timer resets"""
+        
+        self.file_thread = QThread()
+        self.file_handler = FileHandler()
+        self.file_handler.moveToThread(self.file_thread)
+
+        #signals
+        self.file_thread.started.connect(
+            lambda: self.file_handler.create_record(
+                self.timer_state,
+                self.time_to_record
+            )
+        )
+        self.file_handler.finished.connect(self.file_thread.quit)
+        self.file_handler.finished.connect(self.file_handler.deleteLater)
+        self.file_thread.finished.connect(self.file_thread.deleteLater)
+        self.file_thread.start()
+        
