@@ -82,8 +82,11 @@ class Pomodoro(QWidget):
         row_3 = QHBoxLayout()
 
         self.study_time_btn = QPushButton("Study Time")
+        self.study_time_btn.clicked.connect(self.study_time_func)
         self.short_break_btn = QPushButton("Short Break")
+        self.short_break_btn.clicked.connect(self.short_break_time_func)
         self.long_break_btn = QPushButton("Long Break")
+        self.long_break_btn.clicked.connect(self.long_break_time_func)
 
         row_3.addWidget(self.study_time_btn)
         row_3.addWidget(self.short_break_btn)
@@ -98,6 +101,8 @@ class Pomodoro(QWidget):
     def InitTimer(self):
         """Initialize the Pomodoro's timer."""
 
+        self.timer_state = 0
+        self.study_time_btn.setDisabled(True)
         self.run = False
         self.current_time = STUDY_TIME_SEC
         self.current_timer = QTimer()
@@ -129,7 +134,6 @@ class Pomodoro(QWidget):
         """Handles starting of the pomodoro timer"""
         
         self.start_btn.setDisabled(True)
-        self.current_time = STUDY_TIME_SEC
         self.run = True
 
 
@@ -138,7 +142,16 @@ class Pomodoro(QWidget):
 
         self.start_btn.setDisabled(False)
         self.run = False
-        self.current_time = STUDY_TIME_SEC
+
+        if self.timer_state == 0:
+            self.current_time = STUDY_TIME_SEC
+
+        elif self.timer_state == 1:
+            self.current_time = SBREAK_TIME_SEC
+
+        elif self.timer_state == 2:
+            self.current_time = LBREAK_TIME_SEC
+
         self.current_time_str = self.time_to_string()
         self.current_timer_label.setText(self.current_time_str)
 
@@ -180,3 +193,31 @@ class Pomodoro(QWidget):
         self.alert_worker.finished.connect(self.alert_worker.deleteLater)
         self.alert_thread.finished.connect(self.alert_thread.deleteLater)
         self.alert_thread.start()
+
+
+    def study_time_func(self):
+
+        self.timer_state = 0
+        self.stop()
+        self.study_time_btn.setDisabled(True)
+        self.short_break_btn.setDisabled(False)
+        self.long_break_btn.setDisabled(False)
+        
+
+    def short_break_time_func(self):
+
+        self.timer_state = 1
+        self.stop()
+        self.short_break_btn.setDisabled(True)
+        self.study_time_btn.setDisabled(False)
+        self.long_break_btn.setDisabled(False)
+
+
+    def long_break_time_func(self):
+        
+        self.timer_state = 2
+        self.stop()
+        self.long_break_btn.setDisabled(True)
+        self.study_time_btn.setDisabled(False)
+        self.short_break_btn.setDisabled(False)
+
