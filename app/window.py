@@ -104,13 +104,13 @@ class Pomodoro(QWidget):
     def InitTimer(self):
         """Initialize the Pomodoro's timer."""
 
-        self.timer_state = 0
+        self.timer_state = STUDY_TIME_STATE
         self.study_time_btn.setDisabled(True)
         self.run = False
         self.current_time = STUDY_TIME_SEC
         self.current_timer = QTimer()
         self.current_timer.timeout.connect(self.display_time)
-        self.current_timer.start(1000)
+        self.current_timer.start(NORMAL_INTERVAL)
 
 
     def display_time(self):
@@ -121,7 +121,7 @@ class Pomodoro(QWidget):
 
         # must display time when user clicked the start button
         if self.run and self.current_time >= 0:
-            self.current_time -=1
+            self.current_time -= 1
             self.current_timer_label.setText(self.current_time_str)
 
         # stop running upon displaying zero
@@ -150,13 +150,13 @@ class Pomodoro(QWidget):
         self.save_record()
 
 
-        if self.timer_state == 0:
+        if self.timer_state == STUDY_TIME_STATE:
             self.current_time = STUDY_TIME_SEC
 
-        elif self.timer_state == 1:
+        elif self.timer_state == SBREAK_TIME_STATE:
             self.current_time = SBREAK_TIME_SEC
 
-        elif self.timer_state == 2:
+        elif self.timer_state == LBREAK_TIME_STATE:
             self.current_time = LBREAK_TIME_SEC
 
         self.current_time_str = self.time_to_string()
@@ -189,7 +189,7 @@ class Pomodoro(QWidget):
 
     def study_time_func(self):
 
-        self.timer_state = 0
+        self.timer_state = STUDY_TIME_STATE
         self.run = False
 
         self.current_time = STUDY_TIME_SEC
@@ -204,7 +204,7 @@ class Pomodoro(QWidget):
 
     def short_break_time_func(self):
 
-        self.timer_state = 1
+        self.timer_state = SBREAK_TIME_STATE
         self.run = False
 
         self.current_time = SBREAK_TIME_SEC
@@ -219,7 +219,7 @@ class Pomodoro(QWidget):
 
     def long_break_time_func(self):
         
-        self.timer_state = 2
+        self.timer_state = LBREAK_TIME_STATE
         self.run = False
 
         self.current_time = LBREAK_TIME_SEC
@@ -233,7 +233,7 @@ class Pomodoro(QWidget):
 
 
     def alert_audio(self):
-        """Will alert user via audio"""
+        """Will alert user via audio."""
 
         self.alert_thread = QThread()
         self.alert_worker = AudioFeedback()
@@ -248,7 +248,7 @@ class Pomodoro(QWidget):
 
 
     def save_record(self):
-        """save record when timer resets"""
+        """Save record when timer stops."""
         
         self.file_thread = QThread()
         self.file_handler = FileHandler()
