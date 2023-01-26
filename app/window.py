@@ -190,7 +190,13 @@ class Pomodoro(QWidget):
     def study_time_func(self):
 
         self.timer_state = 0
-        self.stop()
+        self.run = False
+
+        self.current_time = STUDY_TIME_SEC
+        self.current_time_str = self.time_to_string()
+        self.current_timer_label.setText(self.current_time_str)
+
+        self.start_btn.setDisabled(False)
         self.study_time_btn.setDisabled(True)
         self.short_break_btn.setDisabled(False)
         self.long_break_btn.setDisabled(False)
@@ -199,7 +205,13 @@ class Pomodoro(QWidget):
     def short_break_time_func(self):
 
         self.timer_state = 1
-        self.stop()
+        self.run = False
+
+        self.current_time = SBREAK_TIME_SEC
+        self.current_time_str = self.time_to_string()
+        self.current_timer_label.setText(self.current_time_str)
+
+        self.start_btn.setDisabled(False)
         self.short_break_btn.setDisabled(True)
         self.study_time_btn.setDisabled(False)
         self.long_break_btn.setDisabled(False)
@@ -208,7 +220,13 @@ class Pomodoro(QWidget):
     def long_break_time_func(self):
         
         self.timer_state = 2
-        self.stop()
+        self.run = False
+
+        self.current_time = LBREAK_TIME_SEC
+        self.current_time_str = self.time_to_string()
+        self.current_timer_label.setText(self.current_time_str)
+
+        self.start_btn.setDisabled(False)
         self.long_break_btn.setDisabled(True)
         self.study_time_btn.setDisabled(False)
         self.short_break_btn.setDisabled(False)
