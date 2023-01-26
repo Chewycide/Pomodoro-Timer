@@ -115,6 +115,7 @@ class Pomodoro(QWidget):
     def start(self):
         """Handles starting of the pomodoro timer"""
         
+        self.start_btn.setDisabled(True)
         self.current_time = STUDY_TIME_SEC
         self.run = True
 
@@ -122,6 +123,7 @@ class Pomodoro(QWidget):
     def stop(self):
         """Handles stopping of the pomodoro timer"""
 
+        self.start_btn.setDisabled(False)
         self.run = False
         self.current_time = STUDY_TIME_SEC
         self.current_time_str = self.time_to_string()
