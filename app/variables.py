@@ -24,3 +24,7 @@ NORMAL_INTERVAL = 1000
 # Window size
 WIN_WIDTH = 400
 WIN_HEIGHT = 250
+
+
+# Stylesheet Location
+STYLESHEET_LOC = "app/stylesheet/styles.qss"

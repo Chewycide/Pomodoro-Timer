@@ -25,6 +25,7 @@ class Pomodoro(QWidget):
         super().__init__()
 
         self.InitUI()
+        self.InitStyle()
         self.InitWindow()
         self.InitTimer()
 
@@ -39,6 +40,13 @@ class Pomodoro(QWidget):
         self.setWindowTitle("Pomodoro")
 
         self.show()
+
+    
+    def InitStyle(self):
+        """Reads the qss file from the style folder"""
+
+        with open(STYLESHEET_LOC, "r") as qss_file:
+            self.setStyleSheet(qss_file.read())
         
 
     def goto_center(self):
