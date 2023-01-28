@@ -82,6 +82,7 @@ class Pomodoro(QWidget):
         self.start_btn = QPushButton("Start")
         self.start_btn.clicked.connect(self.start)
         self.stop_btn = QPushButton("Stop")
+        self.stop_btn.setDisabled(True)
         self.stop_btn.clicked.connect(self.stop)
 
         row_2.addWidget(self.start_btn)
@@ -146,6 +147,7 @@ class Pomodoro(QWidget):
         """Handles starting of the pomodoro timer"""
         
         self.start_btn.setDisabled(True)
+        self.stop_btn.setDisabled(False)
         self.run = True
 
 
@@ -153,6 +155,7 @@ class Pomodoro(QWidget):
         """Handles stopping of the pomodoro timer"""
 
         self.start_btn.setDisabled(False)
+        self.stop_btn.setDisabled(True)
         self.run = False
         self.time_to_record = self.time_to_string()
         self.save_record()
