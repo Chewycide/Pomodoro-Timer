@@ -1,4 +1,5 @@
 from PyQt5.QtCore import QObject, pyqtSignal, pyqtSlot
+from app.variables import DEFAULT_ALERT
 import datetime as dt
 import playsound
 import csv
@@ -15,7 +16,7 @@ class AudioFeedback(QObject):
     @pyqtSlot()
     def play_audio(self):
         """Play audio"""
-        playsound.playsound("assets/default_alert.wav")
+        playsound.playsound(DEFAULT_ALERT)
         self.finished.emit()
 
 

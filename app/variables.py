@@ -28,3 +28,7 @@ WIN_HEIGHT = 250
 
 # Stylesheet Location
 STYLESHEET_LOC = "app/stylesheet/styles.qss"
+
+
+# Assets
+DEFAULT_ALERT = "app/assets/default_alert.wav"
