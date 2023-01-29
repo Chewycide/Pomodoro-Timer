@@ -24,6 +24,7 @@ class Pomodoro(QWidget):
     def __init__(self):
         super().__init__()
 
+        self.setObjectName("Pomodoro")
         self.InitUI()
         self.InitStyle()
         self.InitWindow()
@@ -71,6 +72,7 @@ class Pomodoro(QWidget):
         row_1.setAlignment(Qt.AlignCenter)
 
         self.current_timer_label = QLabel("25:00")
+        self.current_timer_label.setObjectName("Timer")
 
         row_1.addWidget(self.current_timer_label)
         main_v_layout.addLayout(row_1)
