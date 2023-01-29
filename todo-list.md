@@ -11,7 +11,7 @@
 - [x] play sound when timer reaches 00:00 for feedback
 - [x] prevent user from clicking start when timer is started
 - [ ] let user choose own sound, then add functionality to stop longer sounds
-- [ ] add qss style
+- [x] add qss style
 - [ ] automatically go to short/long break/study time when timer reaches 00:00
 - [ ] make style responsive
 - [x] save all records to csv file
