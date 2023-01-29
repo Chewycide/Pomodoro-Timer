@@ -17,3 +17,8 @@
 - [x] save all records to csv file
 - [ ] put slots to a separate module called functions.py
 - [ ] add github profile pic as the placeholder icon for the window
+- [ ] add settings menu
+- [ ] add ambience sound and option for ambience sound
+- [ ] change alarm sound to suit nature theme
+- [ ] create function to add checkmark on calendar day based on user data
+- [ ] visualize user data
