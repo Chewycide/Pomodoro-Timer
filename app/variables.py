@@ -26,8 +26,13 @@ WIN_WIDTH = 400
 WIN_HEIGHT = 250
 
 
-# Stylesheet Location
-STYLESHEET_LOC = "app/stylesheet/styles.qss"
+# Styling files
+STYLESHEET_LOC = "app/styles/styles.qss"
+OPEN_SANS_REGULAR = "app/styles/OpenSans/OpenSans-Regular.ttf"
+OPEN_SANS_MEDIUM = "app/styles/OpenSans/OpenSans-Medium.ttf"
+OPEN_SANS_SEMIBOLD = "app/styles/OpenSans/OpenSans-Medium.ttf"
+OPEN_SANS_BOLD = "app/styles/OpenSans/OpenSans-Medium.ttf"
+OPEN_SANS_EXTRABOLD = "app/styles/OpenSans/OpenSans-ExtraBold.ttf"
 
 
 # Assets

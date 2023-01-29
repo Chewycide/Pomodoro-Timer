@@ -11,6 +11,7 @@ from PyQt5.QtCore import (
     QTimer,
     QThread
 )
+from PyQt5.QtGui import QFontDatabase
 from app.variables import *
 from app.threads import (
     AudioFeedback,
@@ -46,6 +47,8 @@ class Pomodoro(QWidget):
     def InitStyle(self):
         """Reads the qss file from the style folder"""
 
+        QFontDatabase.addApplicationFont(OPEN_SANS_MEDIUM)
+        QFontDatabase.addApplicationFont(OPEN_SANS_EXTRABOLD)
         with open(STYLESHEET_LOC, "r") as qss_file:
             self.setStyleSheet(qss_file.read())
         
