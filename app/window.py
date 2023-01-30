@@ -118,6 +118,7 @@ class Pomodoro(QWidget):
     def InitTimer(self):
         """Initialize the Pomodoro's timer."""
 
+        self.isPaused = False
         self.timer_state = STUDY_TIME_STATE
         self.study_time_btn.setDisabled(True)
         self.run = False
@@ -151,9 +152,16 @@ class Pomodoro(QWidget):
     def start(self):
         """Handles starting of the pomodoro timer"""
         
-        self.start_btn.setDisabled(True)
         self.stop_btn.setDisabled(False)
-        self.run = True
+        if not self.isPaused == True:
+            self.start_btn.setText("Pause")
+            self.isPaused = True
+            self.run = True
+
+        elif self.isPaused == True:
+            self.isPaused = False
+            self.start_btn.setText("Resume")
+            self.run = False
 
 
     def stop(self):

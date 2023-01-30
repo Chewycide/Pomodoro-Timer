@@ -1,5 +1,10 @@
 from PyQt5.QtCore import QObject, pyqtSignal, pyqtSlot
-from app.variables import DEFAULT_ALERT
+from app.variables import (
+    DEFAULT_ALERT,
+    STUDY_TIME_STATE,
+    SBREAK_TIME_STATE,
+    LBREAK_TIME_STATE
+)
 import datetime as dt
 import playsound
 import csv
@@ -34,11 +39,11 @@ class FileHandler(QObject):
             t_state: timer state
             c_time: current_time
         """
-        if t_state == 0:
+        if t_state == STUDY_TIME_STATE:
             self.save_to_csv("STUDY TIME", c_time)
-        elif t_state == 1:
+        elif t_state == SBREAK_TIME_STATE:
             self.save_to_csv("SHORT BREAK", c_time)
-        elif t_state == 2:
+        elif t_state == LBREAK_TIME_STATE:
             self.save_to_csv("LONG BREAK", c_time)
 
         self.finished.emit()
