@@ -7,7 +7,7 @@
 - [x] add functionality to start, stop button
 - [x] let user choose if study time, short break, or long break
 - [ ] add text feedback for study time and break time
-- [ ] transform the start button to a pause button upon click
+- [x] transform the start button to a pause button upon click
 - [x] play sound when timer reaches 00:00 for feedback
 - [x] prevent user from clicking start when timer is started
 - [ ] let user choose own sound, then add functionality to stop longer sounds
