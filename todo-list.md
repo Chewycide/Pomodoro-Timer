@@ -22,3 +22,6 @@
 - [ ] change alarm sound to suit nature theme
 - [ ] create function to add checkmark on calendar day based on user data
 - [ ] visualize user data
+- [x] add audio feedback when clicking buttons (optional: hover)
+- [ ] change button click audio
+- [ ] fix 'pause'/'resume' button not returning to 'start' after clicking stop button
