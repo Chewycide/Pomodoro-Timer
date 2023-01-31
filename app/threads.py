@@ -20,7 +20,6 @@ class AudioFeedback(QObject):
 
     @pyqtSlot()
     def play_audio(self):
-        """Play audio"""
         playsound.playsound(DEFAULT_ALERT)
         self.finished.emit()
 
@@ -62,3 +61,17 @@ class FileHandler(QObject):
         with open("userdata.csv", "a", newline='') as csv_file:
             record_writer = csv.writer(csv_file)
             record_writer.writerow([c_type, c_time, c_month, c_day, c_year])
+
+
+class ButtonClickAudio(QObject):
+    """
+        Plays clicking sound when pushing buttons
+    """
+    finished = pyqtSignal()
+
+    @pyqtSlot()
+    def play_feedback(self):
+        # TODO: find button click sound, for now use default 
+        # alert audio
+        playsound.playsound(DEFAULT_ALERT)
+        self.finished.emit()

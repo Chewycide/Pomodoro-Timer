@@ -15,6 +15,7 @@ from PyQt5.QtGui import QFontDatabase
 from app.variables import *
 from app.threads import (
     AudioFeedback,
+    ButtonClickAudio,
     FileHandler
 )
 
@@ -86,9 +87,11 @@ class Pomodoro(QWidget):
 
         self.start_btn = QPushButton("Start")
         self.start_btn.clicked.connect(self.start)
+        self.start_btn.clicked.connect(self.feedback_audio)
         self.stop_btn = QPushButton("Stop")
         self.stop_btn.setDisabled(True)
         self.stop_btn.clicked.connect(self.stop)
+        self.stop_btn.clicked.connect(self.feedback_audio)
 
         row_2.addWidget(self.start_btn)
         row_2.addWidget(self.stop_btn)
@@ -100,10 +103,13 @@ class Pomodoro(QWidget):
 
         self.study_time_btn = QPushButton("Study Time")
         self.study_time_btn.clicked.connect(self.study_time_func)
+        self.study_time_btn.clicked.connect(self.feedback_audio)
         self.short_break_btn = QPushButton("Short Break")
         self.short_break_btn.clicked.connect(self.short_break_time_func)
+        self.short_break_btn.clicked.connect(self.feedback_audio)
         self.long_break_btn = QPushButton("Long Break")
         self.long_break_btn.clicked.connect(self.long_break_time_func)
+        self.long_break_btn.clicked.connect(self.feedback_audio)
 
         row_3.addWidget(self.study_time_btn)
         row_3.addWidget(self.short_break_btn)
@@ -259,7 +265,7 @@ class Pomodoro(QWidget):
     def alert_audio(self):
         """Will alert user via audio."""
 
-        self.alert_thread = QThread()
+        self.alert_thread = QThread(self)
         self.alert_worker = AudioFeedback()
         self.alert_worker.moveToThread(self.alert_thread)
 
@@ -274,7 +280,7 @@ class Pomodoro(QWidget):
     def save_record(self):
         """Save record when timer stops."""
         
-        self.file_thread = QThread()
+        self.file_thread = QThread(self)
         self.file_handler = FileHandler()
         self.file_handler.moveToThread(self.file_thread)
 
@@ -289,4 +295,32 @@ class Pomodoro(QWidget):
         self.file_handler.finished.connect(self.file_handler.deleteLater)
         self.file_thread.finished.connect(self.file_thread.deleteLater)
         self.file_thread.start()
-        
+
+
+    def feedback_audio(self):
+        """Button click audio feedback."""
+
+        self.btnclk_thread = QThread(self)
+        self.btnclk_audio = ButtonClickAudio()
+        self.btnclk_audio.moveToThread(self.btnclk_thread)
+
+        # signals
+        self.btnclk_thread.started.connect(self.btnclk_audio.play_feedback)
+        self.btnclk_audio.finished.connect(self.btnclk_thread.quit)
+        self.btnclk_audio.finished.connect(self.btnclk_audio.deleteLater)
+        self.btnclk_thread.finished.connect(self.btnclk_thread.deleteLater)
+        self.btnclk_thread.start()
+
+
+    def closeEvent(self, event) -> None:
+        """
+            Reimplements Pomodoro app close event to check and cleanup threads
+            that are still running.
+        """
+        # TODO: create a way to quit all threads
+        try:
+            self.btnclk_thread.quit()
+            self.btnclk_thread.wait()
+        except RuntimeError:
+            return super().closeEvent(event)
+        return super().closeEvent(event)
