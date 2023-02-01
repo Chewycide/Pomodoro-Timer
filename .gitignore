@@ -2,3 +2,4 @@
 __pycache__/
 userdata.csv
 test.py
+.pytest_cache/
