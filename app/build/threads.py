@@ -1,5 +1,5 @@
 from PyQt5.QtCore import QObject, pyqtSignal, pyqtSlot
-from app.variables import (
+from app.build.variables import (
     DEFAULT_ALERT,
     STUDY_TIME_STATE,
     SBREAK_TIME_STATE,

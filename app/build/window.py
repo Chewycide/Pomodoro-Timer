@@ -12,8 +12,8 @@ from PyQt5.QtCore import (
     QThread
 )
 from PyQt5.QtGui import QFontDatabase
-from app.variables import *
-from app.threads import (
+from app.build.variables import *
+from app.build.threads import (
     AudioFeedback,
     ButtonClickAudio,
     FileHandler
