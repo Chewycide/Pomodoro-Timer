@@ -321,6 +321,6 @@ class Pomodoro(QWidget):
         try:
             self.btnclk_thread.quit()
             self.btnclk_thread.wait()
-        except RuntimeError:
+        except (RuntimeError, AttributeError):
             return super().closeEvent(event)
         return super().closeEvent(event)
