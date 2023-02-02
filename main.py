@@ -1,4 +1,4 @@
-import app
+import app.build
 
 if __name__ == "__main__":
-    app.run_app()
+    app.build.run_app()
