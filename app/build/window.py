@@ -173,6 +173,7 @@ class Pomodoro(QWidget):
     def stop(self):
         """Handles stopping of the pomodoro timer"""
 
+        self.start_btn.setText("Start")
         self.start_btn.setDisabled(False)
         self.stop_btn.setDisabled(True)
         self.run = False
