@@ -23,5 +23,7 @@
 - [ ] create function to add checkmark on calendar day based on user data
 - [ ] visualize user data
 - [x] add audio feedback when clicking buttons (optional: hover)
-- [ ] change button click audio
-- [ ] fix 'pause'/'resume' button not returning to 'start' after clicking stop button
+- [x] change button click audio
+- [ ] speed up button click audio feedback
+- [x] fix 'pause'/'resume' button not returning to 'start' after clicking stop button
+- [ ] write useful unit tests
