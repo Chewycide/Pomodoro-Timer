@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import (
     QHBoxLayout,
     QLabel,
     QPushButton,
+    QMessageBox
 )
 from PyQt5.QtCore import (
     Qt,
@@ -65,7 +66,6 @@ class Pomodoro(QWidget):
         self.click_sound = QMediaPlayer(self)
         self.click_sound.setMedia(QMediaContent(QUrl.fromLocalFile(BUTTON_CLICK)))
         
-        
 
     def goto_center(self):
         """Move the window to center upon initialization."""
@@ -82,7 +82,7 @@ class Pomodoro(QWidget):
         # --- Main Layout of the window
         main_v_layout = QVBoxLayout()
         # main_v_layout.setAlignment(Qt.AlignCenter)
-        
+
 
         # --- 1st row
         row_1 = QHBoxLayout()
@@ -104,7 +104,6 @@ class Pomodoro(QWidget):
         self.stop_btn = QPushButton("Stop")
         self.stop_btn.setDisabled(True)
         self.stop_btn.clicked.connect(self.stop)
-        self.stop_btn.clicked.connect(self.click_sound.play)
 
         row_2.addWidget(self.start_btn)
         row_2.addWidget(self.stop_btn)
@@ -172,7 +171,8 @@ class Pomodoro(QWidget):
         """Handles starting of the pomodoro timer"""
         
         self.stop_btn.setDisabled(False)
-        if not self.isPaused == True:
+        print(self.isPaused)
+        if self.isPaused != True:
             self.start_btn.setText("Pause")
             self.isPaused = True
             self.run = True
@@ -186,14 +186,27 @@ class Pomodoro(QWidget):
     def stop(self):
         """Handles stopping of the pomodoro timer"""
 
+        self.click_sound.play()
         self.start_btn.setText("Start")
         self.start_btn.setDisabled(False)
         self.stop_btn.setDisabled(True)
         self.run = False
+        self.isPaused = False
         self.time_to_record = self.time_to_string()
-        self.save_record()
 
+        self.stop_dialog = StopDialog()
+        user_resp = self.stop_dialog.exec()
+        # Stop timer and save
+        if user_resp == QMessageBox.Save:
+            self.save_record()
+            
+        # Continue timer
+        elif user_resp == QMessageBox.Cancel:
+            return self.start()
 
+        # skip both if not saving (discard)
+
+        # If stopped then check timer state
         if self.timer_state == STUDY_TIME_STATE:
             self.current_time = STUDY_TIME_SEC
 
@@ -323,3 +336,15 @@ class Pomodoro(QWidget):
             that are still running.
         """
         return super().closeEvent(event)
+
+
+class StopDialog(QMessageBox):
+
+    def __init__(self):
+        super().__init__()
+        self.setText("You stopped the timer.")
+        self.setInformativeText("Do you want to save recorded time?")
+        self.setStandardButtons(
+            QMessageBox.Discard | QMessageBox.Cancel | QMessageBox.Save
+        )
+        self.setDefaultButton(QMessageBox.Save)
