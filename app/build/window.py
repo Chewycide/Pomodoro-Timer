@@ -103,6 +103,7 @@ class Pomodoro(QWidget):
         self.start_btn.clicked.connect(self.click_sound.play)
         self.stop_btn = QPushButton("Stop")
         self.stop_btn.setDisabled(True)
+        self.stop_btn.clicked.connect(self.click_sound.play)
         self.stop_btn.clicked.connect(self.stop)
 
         row_2.addWidget(self.start_btn)
@@ -171,7 +172,9 @@ class Pomodoro(QWidget):
         """Handles starting of the pomodoro timer"""
         
         self.stop_btn.setDisabled(False)
-        print(self.isPaused)
+        self.study_time_btn.setDisabled(True)
+        self.short_break_btn.setDisabled(True)
+        self.long_break_btn.setDisabled(True)
         if self.isPaused != True:
             self.start_btn.setText("Pause")
             self.isPaused = True
@@ -186,11 +189,9 @@ class Pomodoro(QWidget):
     def stop(self):
         """Handles stopping of the pomodoro timer"""
 
-        self.click_sound.play()
-        self.start_btn.setText("Start")
         self.start_btn.setDisabled(False)
         self.stop_btn.setDisabled(True)
-        self.run = False
+        # self.run = False
         self.isPaused = False
         self.time_to_record = self.time_to_string()
 
@@ -207,17 +208,18 @@ class Pomodoro(QWidget):
         # skip both if not saving (discard)
 
         # If stopped then check timer state
+        self.start_btn.setText("Start")
         if self.timer_state == STUDY_TIME_STATE:
-            self.current_time = STUDY_TIME_SEC
+            return self.study_time_func()
+            # self.current_time = STUDY_TIME_SEC
 
         elif self.timer_state == SBREAK_TIME_STATE:
-            self.current_time = SBREAK_TIME_SEC
+            # self.current_time = SBREAK_TIME_SEC
+            return self.short_break_time_func()
 
         elif self.timer_state == LBREAK_TIME_STATE:
-            self.current_time = LBREAK_TIME_SEC
-
-        self.current_time_str = self.time_to_string()
-        self.current_timer_label.setText(self.current_time_str)
+            # self.current_time = LBREAK_TIME_SEC
+            return self.long_break_time_func()
 
 
     def time_to_string(self) -> str:
@@ -248,12 +250,15 @@ class Pomodoro(QWidget):
 
         self.timer_state = STUDY_TIME_STATE
         self.run = False
+        self.isPaused = False
 
         self.current_time = STUDY_TIME_SEC
         self.current_time_str = self.time_to_string()
         self.current_timer_label.setText(self.current_time_str)
 
         self.start_btn.setDisabled(False)
+        self.start_btn.setText("Start")
+        self.stop_btn.setDisabled(True)
         self.study_time_btn.setDisabled(True)
         self.short_break_btn.setDisabled(False)
         self.long_break_btn.setDisabled(False)
@@ -263,27 +268,33 @@ class Pomodoro(QWidget):
 
         self.timer_state = SBREAK_TIME_STATE
         self.run = False
+        self.isPaused = False
 
         self.current_time = SBREAK_TIME_SEC
         self.current_time_str = self.time_to_string()
         self.current_timer_label.setText(self.current_time_str)
 
         self.start_btn.setDisabled(False)
+        self.start_btn.setText("Start")
+        self.stop_btn.setDisabled(True)
         self.short_break_btn.setDisabled(True)
         self.study_time_btn.setDisabled(False)
         self.long_break_btn.setDisabled(False)
 
 
     def long_break_time_func(self):
-        
+
         self.timer_state = LBREAK_TIME_STATE
         self.run = False
+        self.isPaused = False
 
         self.current_time = LBREAK_TIME_SEC
         self.current_time_str = self.time_to_string()
         self.current_timer_label.setText(self.current_time_str)
 
         self.start_btn.setDisabled(False)
+        self.start_btn.setText("Start")
+        self.stop_btn.setDisabled(True)
         self.long_break_btn.setDisabled(True)
         self.study_time_btn.setDisabled(False)
         self.short_break_btn.setDisabled(False)
@@ -326,15 +337,10 @@ class Pomodoro(QWidget):
 
     def feedback_audio(self):
         """Button click audio feedback."""
-
         self.threadpool.start(self.btnclk_audio.play_feedback)
 
 
     def closeEvent(self, event) -> None:
-        """
-            Reimplements Pomodoro app close event to check and cleanup threads
-            that are still running.
-        """
         return super().closeEvent(event)
 
 
