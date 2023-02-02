@@ -1,6 +1,7 @@
 from PyQt5.QtCore import QObject, pyqtSignal, pyqtSlot
 from app.build.variables import (
     DEFAULT_ALERT,
+    BUTTON_CLICK,
     STUDY_TIME_STATE,
     SBREAK_TIME_STATE,
     LBREAK_TIME_STATE
@@ -73,5 +74,5 @@ class ButtonClickAudio(QObject):
     def play_feedback(self):
         # TODO: find button click sound, for now use default 
         # alert audio
-        playsound.playsound(DEFAULT_ALERT)
+        playsound.playsound(BUTTON_CLICK)
         self.finished.emit()
