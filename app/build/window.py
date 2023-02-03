@@ -17,7 +17,8 @@ from PyQt5.QtCore import (
 from PyQt5.QtGui import (
     QFontDatabase,
     QMouseEvent,
-    QPixmap
+    QPixmap,
+    QResizeEvent
 )
 from PyQt5.QtMultimedia import (
     QMediaPlayer,
@@ -51,7 +52,7 @@ class Pomodoro(QWidget):
         self.setFixedSize(WIN_WIDTH, WIN_HEIGHT)
         self.goto_center()
         
-        self.setWindowTitle("Pomodoro")
+        self.setWindowFlags(Qt.FramelessWindowHint)
 
         self.show()
 
@@ -88,6 +89,9 @@ class Pomodoro(QWidget):
         main_v_layout = QVBoxLayout()
         # main_v_layout.setAlignment(Qt.AlignCenter)
 
+        # Custom title bar
+        self.title_bar = PomodoroTitleBar(self)
+        main_v_layout.addWidget(self.title_bar)
 
         # --- 1st row
         row_1 = QHBoxLayout()
@@ -382,3 +386,65 @@ class StopDialog(QMessageBox):
         delta = QPoint(event.globalPos() - self.old_pos)
         self.move(self.x() + delta.x(), self.y() + delta.y())
         self.old_pos = event.globalPos()
+
+
+class PomodoroTitleBar(QWidget):
+    """Custom Title bar for Pomodoro App"""
+
+    def __init__(self, parent: Pomodoro):
+        super().__init__()
+        self.setObjectName("Titlebar")
+        self.pomodoro_main = parent
+        self.InitUI()
+
+
+    def InitUI(self):
+
+        fixed_size = 25
+
+        main_layout = QHBoxLayout()
+        main_layout.setContentsMargins(0, 0, 0, 0)
+
+        self.title = QLabel("Pomodoro")
+        self.title.setFixedHeight(fixed_size)
+        main_layout.addWidget(self.title)
+
+
+        self.minimize_btn = QPushButton("-")
+        self.minimize_btn.setObjectName("MinimizeBtn")
+        self.minimize_btn.clicked.connect(self.minimize_button_func)
+        self.minimize_btn.setFixedSize(fixed_size, fixed_size)
+        main_layout.addWidget(self.minimize_btn)
+
+
+        self.close_btn = QPushButton("X")
+        self.close_btn.setObjectName("CloseBtn")
+        self.close_btn.clicked.connect(self.close_button_func)
+        self.close_btn.setFixedSize(fixed_size, fixed_size)
+        main_layout.addWidget(self.close_btn)
+
+
+        self.setLayout(main_layout)
+
+
+    def mousePressEvent(self, event: QMouseEvent):
+        self.old_pos = event.globalPos()
+
+
+    def mouseMoveEvent(self, event: QMouseEvent):
+        delta = QPoint(event.globalPos() - self.old_pos)
+        self.pomodoro_main.move(self.pomodoro_main.x() + delta.x(), self.pomodoro_main.y() + delta.y())
+        self.old_pos = event.globalPos()
+
+    
+    def ResizeEvent(self, event: QResizeEvent):
+        super().resizeEvent(event)
+        self.title.setFixedWidth(self.pomodoro_main.width)
+
+
+    def minimize_button_func(self):
+        self.pomodoro_main.showMinimized()
+
+
+    def close_button_func(self):
+        self.pomodoro_main.close()
