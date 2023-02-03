@@ -24,6 +24,7 @@
 - [ ] visualize user data
 - [x] add audio feedback when clicking buttons (optional: hover)
 - [x] change button click audio
-- [ ] speed up button click audio feedback
+- [x] speed up button click audio feedback
 - [x] fix 'pause'/'resume' button not returning to 'start' after clicking stop button
+- [x] add style for dialogs
 - [ ] write useful unit tests
