@@ -38,3 +38,4 @@ OPEN_SANS_EXTRABOLD = "app/styles/OpenSans/OpenSans-ExtraBold.ttf"
 # Assets
 DEFAULT_ALERT = "app/assets/default_alert.wav"
 BUTTON_CLICK = "app/assets/button_click.wav"
+ICON_QUESION = "app/assets/question.png"

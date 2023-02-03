@@ -11,9 +11,14 @@ from PyQt5.QtCore import (
     Qt,
     QTimer,
     QThread,
-    QUrl
+    QUrl,
+    QPoint
 )
-from PyQt5.QtGui import QFontDatabase
+from PyQt5.QtGui import (
+    QFontDatabase,
+    QMouseEvent,
+    QPixmap
+)
 from PyQt5.QtMultimedia import (
     QMediaPlayer,
     QMediaContent
@@ -203,10 +208,11 @@ class Pomodoro(QWidget):
             
         # Continue timer
         elif user_resp == QMessageBox.Cancel:
+            self.click_sound.play()
             return self.start()
 
         # skip both if not saving (discard)
-
+        self.click_sound.play()
         # If stopped then check timer state
         self.start_btn.setText("Start")
         if self.timer_state == STUDY_TIME_STATE:
@@ -335,22 +341,44 @@ class Pomodoro(QWidget):
         self.file_thread.start()
 
 
-    def feedback_audio(self):
-        """Button click audio feedback."""
-        self.threadpool.start(self.btnclk_audio.play_feedback)
-
-
     def closeEvent(self, event) -> None:
         return super().closeEvent(event)
 
 
 class StopDialog(QMessageBox):
+    """Dialog Popup when stopping timer."""
 
     def __init__(self):
         super().__init__()
+        self.setObjectName("StopDialog")
+        self.InitUI()
+        self.InitStyle()
+        self.setWindowFlags(Qt.FramelessWindowHint)
+
+    
+    def InitStyle(self):
+        with open(STYLESHEET_LOC, "r") as qss_file:
+            self.setStyleSheet(qss_file.read())
+
+
+    def InitUI(self):
+        icon = QPixmap(ICON_QUESION).scaled(80, 80)
+        self.setIconPixmap(icon)
+
         self.setText("You stopped the timer.")
         self.setInformativeText("Do you want to save recorded time?")
+
         self.setStandardButtons(
             QMessageBox.Discard | QMessageBox.Cancel | QMessageBox.Save
         )
         self.setDefaultButton(QMessageBox.Save)
+
+    
+    def mousePressEvent(self, event: QMouseEvent):
+        self.old_pos = event.globalPos()
+        
+
+    def mouseMoveEvent(self, event: QMouseEvent):
+        delta = QPoint(event.globalPos() - self.old_pos)
+        self.move(self.x() + delta.x(), self.y() + delta.y())
+        self.old_pos = event.globalPos()

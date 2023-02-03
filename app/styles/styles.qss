@@ -36,3 +36,17 @@ QLabel#Timer {
     font-size: 75px;
     width: 100%;
 }
+
+QMessageBox#StopDialog {
+    background-color: #3C6255;
+    border: 3px solid #243b33;
+}
+
+QMessageBox#StopDialog QLabel{
+    color: #dfe7e2;
+}
+
+QMessageBox#StopDialog QLabel{
+    color: #dfe7e2;
+    
+}
