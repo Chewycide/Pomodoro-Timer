@@ -87,6 +87,8 @@ class Pomodoro(QWidget):
 
         # --- Main Layout of the window
         main_v_layout = QVBoxLayout()
+        main_v_layout.setContentsMargins(0, 0, 0, 0)
+        main_v_layout.setSpacing(0)
         # main_v_layout.setAlignment(Qt.AlignCenter)
 
         # Custom title bar
@@ -395,32 +397,35 @@ class PomodoroTitleBar(QWidget):
         super().__init__()
         self.setObjectName("Titlebar")
         self.pomodoro_main = parent
+        self.setFixedHeight(TITLE_HEIGHT)
         self.InitUI()
 
 
     def InitUI(self):
 
-        fixed_size = 25
+        btn_height = TITLE_HEIGHT
+        btn_width = btn_height
 
         main_layout = QHBoxLayout()
         main_layout.setContentsMargins(0, 0, 0, 0)
+        main_layout.setSpacing(0)
 
         self.title = QLabel("Pomodoro")
-        self.title.setFixedHeight(fixed_size)
+        self.title.setAlignment(Qt.AlignCenter)
         main_layout.addWidget(self.title)
 
 
         self.minimize_btn = QPushButton("-")
         self.minimize_btn.setObjectName("MinimizeBtn")
         self.minimize_btn.clicked.connect(self.minimize_button_func)
-        self.minimize_btn.setFixedSize(fixed_size, fixed_size)
+        self.minimize_btn.setFixedSize(btn_width, btn_height)
         main_layout.addWidget(self.minimize_btn)
 
 
         self.close_btn = QPushButton("X")
         self.close_btn.setObjectName("CloseBtn")
         self.close_btn.clicked.connect(self.close_button_func)
-        self.close_btn.setFixedSize(fixed_size, fixed_size)
+        self.close_btn.setFixedSize(btn_width, btn_height)
         main_layout.addWidget(self.close_btn)
 
 
@@ -437,9 +442,9 @@ class PomodoroTitleBar(QWidget):
         self.old_pos = event.globalPos()
 
     
-    def ResizeEvent(self, event: QResizeEvent):
-        super().resizeEvent(event)
-        self.title.setFixedWidth(self.pomodoro_main.width)
+    # def ResizeEvent(self, event: QResizeEvent):
+    #     super().resizeEvent(event)
+    #     self.title.setFixedWidth(self.pomodoro_main.width)
 
 
     def minimize_button_func(self):

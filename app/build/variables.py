@@ -24,6 +24,7 @@ NORMAL_INTERVAL = 1000
 # Window size
 WIN_WIDTH = 400
 WIN_HEIGHT = 250
+TITLE_HEIGHT = 40
 
 
 # Styling files
