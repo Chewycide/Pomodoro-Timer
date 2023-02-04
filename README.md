@@ -9,4 +9,16 @@
 </div>
 
 A Simple Pomodoro Timer App.
-> *Still in Development*
+
+- 25 mins study timer
+- 5 mins short break
+- 20 mins long break
+
+---
+
+### Screenshots
+
+![Alt text](img/sc1.png)
+![Alt text](img/sc2.png)
+![Alt text](img/sc3.png)
+
