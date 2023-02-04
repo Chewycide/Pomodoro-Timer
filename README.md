@@ -18,7 +18,9 @@ A Simple Pomodoro Timer App.
 
 ### Screenshots
 
-![Alt text](img/sc1.png)
-![Alt text](img/sc2.png)
-![Alt text](img/sc3.png)
+![Alt text](img/sc1.png)  
+
+![Alt text](img/sc2.png)  
+
+![Alt text](img/sc3.png)  
 
