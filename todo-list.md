@@ -27,4 +27,5 @@
 - [x] speed up button click audio feedback
 - [x] fix 'pause'/'resume' button not returning to 'start' after clicking stop button
 - [x] add style for dialogs
+- [x] reimplement a custom title bar
 - [ ] write useful unit tests
