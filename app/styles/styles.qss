@@ -1,9 +1,13 @@
+QLabel {
+    font-family: "Open Sans Medium";
+}
+
 QPushButton {
     background-color: #EAE7B1;
     border: 0px solid #a4a27c;
     color: #2f2e23;
     font-family: "Open Sans Medium";
-    padding: 7%;
+    padding: 10%;
 }
 
 QPushButton:hover {
@@ -28,7 +32,7 @@ QWidget#Pomodoro {
 
 QLabel#Timer {
     background-color: #61876E;
-    border: 1px solid #a0b7a8;
+    border: 1px solid #61876E;
     border-radius: 1px;
     color: #dfe7e2;
     font-family: "Open Sans ExtraBold";
@@ -54,6 +58,8 @@ QWidget#Titlebar QLabel{
     background-color: #243b33;
     border: 0 solid #243b33;
     color: #dfe7e2;
+    padding-left: 7%;
+    font-size: 18px;
 }
 
 QWidget#Titlebar QPushButton{
@@ -61,10 +67,18 @@ QWidget#Titlebar QPushButton{
     color: #dfe7e2;
 }
 
-QWidget#Titlebar QPushButton:hover{
+QWidget#Titlebar QPushButton:hover {
     background-color: #304e44;
 }
 
-QWidget#Titlebar QPushButton:pressed{
+QWidget#Titlebar QPushButton:pressed {
     background-color: #36584d;
+}
+
+QWidget#Titlebar QPushButton:hover#CloseBtn{
+    background-color: #Ff0000;
+}
+
+QWidget#Titlebar QPushButton:pressed#CloseBtn{
+    background-color: #cc0000;
 }

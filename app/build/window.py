@@ -18,7 +18,9 @@ from PyQt5.QtGui import (
     QFontDatabase,
     QMouseEvent,
     QPixmap,
-    QResizeEvent
+    QIcon,
+    QColor,
+    QPainter
 )
 from PyQt5.QtMultimedia import (
     QMediaPlayer,
@@ -406,23 +408,27 @@ class PomodoroTitleBar(QWidget):
         btn_height = TITLE_HEIGHT
         btn_width = btn_height
 
+        close_icon = self.icon_from_svg("app/assets/close_outline.svg")
+        minimize_icon = self.icon_from_svg("app/assets/minimize.svg")
+
         main_layout = QHBoxLayout()
         main_layout.setContentsMargins(0, 0, 0, 0)
         main_layout.setSpacing(0)
 
         self.title = QLabel("Pomodoro")
-        self.title.setAlignment(Qt.AlignCenter)
         main_layout.addWidget(self.title)
 
 
-        self.minimize_btn = QPushButton("-")
+        self.minimize_btn = QPushButton()
+        self.minimize_btn.setIcon(minimize_icon)
         self.minimize_btn.setObjectName("MinimizeBtn")
         self.minimize_btn.clicked.connect(self.minimize_button_func)
         self.minimize_btn.setFixedSize(btn_width, btn_height)
         main_layout.addWidget(self.minimize_btn)
 
 
-        self.close_btn = QPushButton("X")
+        self.close_btn = QPushButton()
+        self.close_btn.setIcon(close_icon)
         self.close_btn.setObjectName("CloseBtn")
         self.close_btn.clicked.connect(self.close_button_func)
         self.close_btn.setFixedSize(btn_width, btn_height)
@@ -453,3 +459,21 @@ class PomodoroTitleBar(QWidget):
 
     def close_button_func(self):
         self.pomodoro_main.close()
+
+    
+    def icon_from_svg(self, svg_path, color='white'):
+        """
+            Change color of SVG file and convert to QIcon
+            params:
+            svg_path = file path of svg in string.
+            color =  fill color. default white.
+        """
+        img = QPixmap(svg_path)
+        qp = QPainter()
+        qp.begin(img)
+        # use source out composition mode to fill only the actual image
+        # and not the transparent parts
+        qp.setCompositionMode(QPainter.CompositionMode_SourceIn)
+        qp.fillRect(img.rect(), QColor(color))
+        qp.end()
+        return QIcon(img)
